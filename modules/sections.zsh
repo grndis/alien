@@ -142,6 +142,13 @@ alien_prompt_section_venv() {
 
 alien_prompt_section_prompt() {
   __section=(
+    content "%B${ALIEN_PROMPT_SYM}%b "
+    foreground $ALIEN_PROMPT_FG
+  )
+}
+
+alien_prompt_section_warp() {
+  __section=(
     content $'\n'
     foreground $ALIEN_PROMPT_FG
   )
