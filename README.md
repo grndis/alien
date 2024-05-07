@@ -1,4 +1,4 @@
-# alien
+# alien theme for WARP
 
 [![GitHub tag](https://img.shields.io/github/tag/eendroroy/alien.svg)](https://github.com/eendroroy/alien/tags)
 
@@ -20,10 +20,6 @@ terminal as you would normally.
 
 alien theme is **independent** of any library like Oh-My-Zsh or Prezto. Whatever it needs already included inside.
 The only exception is font. You need to **install the powerline patched fonts** to properly display the prompt.
-
-## Asciicast v2.0.0
-
-[![asciicast](http://asciinema.org/a/237118.svg)](http://asciinema.org/a/237118)
 
 ## Requirements
 
@@ -113,7 +109,6 @@ To change the section-separator:
 export ALIEN_SECTIONS_LEFT_SEP_SYM=
 export ALIEN_SECTIONS_RIGHT_SEP_SYM=
 ```
-
 
 #### `prompt`-section
 
@@ -274,13 +269,11 @@ export ALIEN_THEME="gruvbox"
 
 ![gruvbox](screenshots/gruvbox.png)
 
-
 ```bash
 export ALIEN_THEME="bnw"
 ```
 
 ![gruvbox](screenshots/bnw.png)
-
 
 **Custom Color**
 
@@ -320,7 +313,7 @@ ALIEN_PHP_COLOR=57
 
 Or creating a new theme file:
 
-__/path/to/custom/theme.zsh__
+**/path/to/custom/theme.zsh**
 
 ```bash
 #!/usr/bin/env zsh
@@ -384,7 +377,6 @@ export ALIEN_USE_NERD_FONT=1
 
 _*Note: [Nerd fonts](https://github.com/ryanoasis/nerd-fonts)*_
 
-
 ### promptlib-zsh Configs:
 
 #### customize symbols
@@ -421,7 +413,7 @@ _Note: this overrides `ALIEN_USE_NERD_FONT` configuration._
 
 ## Author
 
-* **indrajit** - *Owner* - [eendroroy](https://github.com/eendroroy)
+- **indrajit** - _Owner_ - [eendroroy](https://github.com/eendroroy)
 
 ## Contributing
 
@@ -429,12 +421,11 @@ Bug reports and pull requests are welcome on GitHub at [alien](https://github.co
 This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to
 the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-  1. Fork it ( https://github.com/eendroroy/alien/fork )
-  1. Create your feature branch (`git checkout -b my-new-feature`)
-  1. Commit your changes (`git commit -am 'Add some feature'`)
-  1. Push to the branch (`git push origin my-new-feature`)
-  1. Create a new Pull Request
-
+1. Fork it ( https://github.com/eendroroy/alien/fork )
+1. Create your feature branch (`git checkout -b my-new-feature`)
+1. Commit your changes (`git commit -am 'Add some feature'`)
+1. Push to the branch (`git push origin my-new-feature`)
+1. Create a new Pull Request
 
 ## License
 
