@@ -85,3 +85,4 @@ alien_prompt_render_right() {
   done
   echo -ne $__rprompt_suffix
 }
+

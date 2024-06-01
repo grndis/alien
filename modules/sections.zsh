@@ -48,6 +48,40 @@ alien_prompt_section_user() {
   )
 }
 
+alien_prompt_section_short_path() {
+  local path="$PWD"
+  local home="$HOME"
+  
+  # Replace home directory path with ~
+  if [[ "$path" == "$home"* ]]; then
+    path="~${path#$home}"
+  fi
+
+  local segments=("${(@s:/:)path}")
+  local num_segments=${#segments[@]}
+  local display_segments=3  # Number of end segments to display
+
+  local shortened_path=""
+  if (( num_segments > display_segments + 1 )); then
+    for (( i = num_segments - display_segments; i < num_segments; i++ )); do
+      shortened_path+="/${segments[i]}"
+    done
+    shortened_path="..${shortened_path}"
+  else
+    shortened_path="$path"
+  fi
+
+  __section=(
+    content " ${shortened_path} "
+    foreground $ALIEN_SECTION_PATH_FG
+    background $ALIEN_SECTION_PATH_BG
+    separator 1
+  )
+}
+
+
+
+
 alien_prompt_section_path() {
   local __path_info=
   if [[ -z $ALIEN_SECTION_PATH_COMPONENTS ]]; then
