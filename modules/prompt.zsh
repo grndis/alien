@@ -11,43 +11,39 @@ alien_prompt_colorize() {
   [[ -n "$__fg" ]] && echo -en "%f"
 }
 
-alien_prompt_section_short_path() {
-  local path="$PWD"
-  local home="$HOME"
-  
-  # Replace home directory path with ~
-  if [[ "$path" == "$home"* ]]; then
-    path="~${path#$home}"
-  fi
-
-  local segments=("${(@s:/:)path}")
-  local num_segments=${#segments[@]}
-  local display_segments=3  # Number of end segments to display
-
-  local shortened_path=""
-  if (( num_segments > display_segments + 1 )); then
-    for (( i = num_segments - display_segments; i < num_segments; i++ )); do
-      shortened_path+="/${segments[i]}"
-    done
-    shortened_path="..${shortened_path}"
-  else
-    shortened_path="$path"
-  fi
-  
-  # Ensure the current folder is always displayed
-  if [[ "$shortened_path" == "~" ]]; then
-    shortened_path="~/${segments[-1]}"
-  fi
-
-  __section=(
-    content " ${shortened_path} "
-    foreground $ALIEN_SECTION_PATH_FG
-    background $ALIEN_SECTION_PATH_BG
-    separator 1
-  )
-}
-
-
+alien_prompt_render_left() {
+   [[ ${#ALIEN_SECTIONS_LEFT} -ne 0 ]] || return
+   local __render_mode=$1
+   local __separator=$ALIEN_SECTIONS_LEFT_SEP_SYM
+   local __last_bg=
+   local __last_sep=
+   for section in $ALIEN_SECTIONS_LEFT; do
+     # section can define a render-mode in which it will be rendered
+     # render-mode is defined by appending :<mode>
+     IFS=":" read -r __section_name __section_render_mode <<< "$section"
+     local __section_function="alien_prompt_section_${__section_name}"
+     # check if a function is defined for the section
+     if whence -w "$__section_function" >/dev/null && \
+       { [[ -z "$__section_render_mode" ]] || [[ "$__section_render_mode" == "$__render_mode" ]] ;}
+     then
+       # declare variable in which the section-function writes its information
+       typeset -A __section=()
+       $__section_function
+       # skip section if section-function returned false
+       [[ $? -ne 0 ]] && continue
+       local __content=${__section[content]}
+       local __fg=${__section[foreground]}
+       local __bg=${__section[background]}
+       local __sep=${__section[separator]+${__section[separator]}}
+       [[ -n "$__last_sep" ]] && alien_prompt_colorize "$__last_sep" "$__last_bg" "$__bg"
+       __last_bg="$__bg"
+       [[ -n $__sep ]] && __last_sep="$__separator" || __last_sep=""
+       alien_prompt_colorize "$__content" "$__fg" "$__bg"
+     fi
+   done
+   [[ -n "$__last_sep" ]] && alien_prompt_colorize "$__last_sep" "$__last_bg"
+ }
+ 
 alien_prompt_render_right() {
   [[ ${#ALIEN_SECTIONS_RIGHT} -ne 0 ]] || return
   local __render_mode=$1
