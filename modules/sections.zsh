@@ -51,22 +51,26 @@ alien_prompt_section_user() {
 alien_prompt_section_short_path() {
   local path="$PWD"
   local home="$HOME"
-  
+  local shortened_path=""
+  local dir_name="${path##*/}"  # Current directory name
+
   # Replace home directory path with ~
   if [[ "$path" == "$home"* ]]; then
     path="~${path#$home}"
   fi
 
-  local segments=("${(@s:/:)path}")
+  # Split the path into segments using zsh-specific syntax
+  local segments=("${(s:/:)path}")
+  
   local num_segments=${#segments[@]}
   local display_segments=3  # Number of end segments to display
 
-  local shortened_path=""
-  if (( num_segments > display_segments + 1 )); then
-    for (( i = num_segments - display_segments; i < num_segments; i++ )); do
+  if (( num_segments > display_segments )); then
+    # Construct the shortened path with the last 'display_segments' segments
+    for (( i = num_segments - (display_segments - 1); i < num_segments; i++ )); do
       shortened_path+="/${segments[i]}"
     done
-    shortened_path="..${shortened_path}"
+    shortened_path="..${shortened_path}/${dir_name}"
   else
     shortened_path="$path"
   fi
@@ -78,9 +82,6 @@ alien_prompt_section_short_path() {
     separator 1
   )
 }
-
-
-
 
 alien_prompt_section_path() {
   local __path_info=
